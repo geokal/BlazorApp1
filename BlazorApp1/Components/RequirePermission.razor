@@ -1,0 +1,51 @@
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
+@inject IAuthorizationService AuthorizationService
+
+@if (!isLoaded)
+{
+    <p>Loading...</p>
+}
+else if (isAuthorized)
+{
+    @ChildContent
+}
+else if (isAuthenticated)
+{
+    <p>You do not have the required permission: @Permission</p>
+}
+else
+{
+    <p>Please log in to access this content.</p>
+}
+
+@code {
+    [Parameter]
+    public string Permission { get; set; } = string.Empty;
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [CascadingParameter]
+    private Task<AuthenticationState> AuthenticationStateTask { get; set; } = default!;
+
+    private bool isLoaded = false;
+    private bool isAuthenticated = false;
+    private bool isAuthorized = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthenticationStateTask;
+        var user = authState.User;
+        isAuthenticated = user.Identity?.IsAuthenticated == true;
+        
+        if (isAuthenticated)
+        {
+            var result = await AuthorizationService.AuthorizeAsync(user, Permission);
+            isAuthorized = result.Succeeded;
+        }
+        
+        isLoaded = true;
+    }
+}
