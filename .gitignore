@@ -55,3 +55,6 @@ CodeCoverage/
 *.VisualState.xml
 TestResult.xml
 nunit-*.xml
+.idea/.idea.BlazorApp1/.idea/.gitignore
+.idea/.idea.BlazorApp1/.idea/copilot.data.migration.agent.xml
+.idea/.idea.BlazorApp1/.idea/indexLayout.xml
