@@ -1,4 +1,3 @@
-using BlazorApp1.Components;
 using MudBlazor.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
